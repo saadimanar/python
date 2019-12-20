@@ -3,6 +3,7 @@ def correct_myfile(old_survey_path):
     file = open(old_survey_path, 'r')
     dict = {}
     for line in file:
+        tmp = line
         sentence = line.split()
         id = sentence[0]
         age = (int)(sentence[2])
@@ -16,7 +17,7 @@ def correct_myfile(old_survey_path):
         for x in scores:
             if x < '1' or x > '10':
                 continue
-        dict[id] = sentence[1:]
+        dict[id] = tmp
     keys = []
     new_dict = {}
     for key in dict:
@@ -28,10 +29,10 @@ def correct_myfile(old_survey_path):
         new_dict[element] = val
 
     for k, v in new_dict.items():
-         print(k, end=" ")
-         print(*v)
+         print(v)
 
     file.close()
+
 
 def scan_survey(survey_path):
     file = open(survey_path, 'r')
@@ -63,4 +64,6 @@ def print_info(s , choc_type , gender , min_age , max_age, eating_habits):
 
 def clear_survey(s):
     Survey.SurveyDestroySurvey(s)
+
+
 
