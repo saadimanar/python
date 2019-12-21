@@ -11,13 +11,15 @@ def correct_myfile(old_survey_path):
         id_size = 8
         min_age = 0
         max_age = 100
-
+        valid = "true"
         if (len(id) != id_size) or (age < min_age) or (age > max_age):
-            continue
+            valid = "false"
         for x in scores:
-            if x < '1' or x > '10':
-                continue
-        dict[id] = tmp
+            y = (int)(x)
+            if y < 1 or y > 10:
+                valid = "false"
+        if valid == "true":
+            dict[id] = tmp
     keys = []
     new_dict = {}
     for key in dict:
@@ -29,7 +31,7 @@ def correct_myfile(old_survey_path):
         new_dict[element] = val
 
     for k, v in new_dict.items():
-         print(v,end="")
+        print(v, end="")
 
     file.close()
 
