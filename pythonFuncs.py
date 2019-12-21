@@ -29,29 +29,46 @@ def correct_myfile(old_survey_path):
         new_dict[element] = val
 
     for k, v in new_dict.items():
-         print(v)
+         print(v,end="")
 
     file.close()
 
 
 def scan_survey(survey_path):
     file = open(survey_path, 'r')
+    a = 0
     survey = Survey.SurveyCreateSurvey()
+    scores = [0,0,0,0,0]
     for line in file:
         sentence = line.split()
         id = sentence[0]
         eatingHabits = sentence[1]
+        if eatingHabits == "Vegan":
+            num = 0
+        if eatingHabits == "Omnivore":
+            num = 1	
+        if eatingHabits == "Vegetarian":
+            num = 2			
         age = sentence[2]
         gender = sentence[3]
-        scores = sentence[4:]
-        Survey.SurveyAddPerson(Survey, id, age, gender, eatingHabits, Scores)
+        scores = Survey.SurveyCreateIntAr(5)
+        for i in range(5):
+            a = int(sentence[i+4])
+            Survey.SurveySetIntArIdxVal(scores,i,a)
+        Survey.SurveyAddPerson(survey, int(id), int(age), gender, num, scores)
     file.close()
     return survey
 
 def print_info(s , choc_type , gender , min_age , max_age, eating_habits):
     size = 10
     array = Survey.SurveyCreateIntAr(size)
-    histogram = Survey.SurveyQuerySurvey(s, choc_type, gender, min_age, max_age, eating_habits)
+    if eating_habits == "Vegan":
+        num = 0
+    if eating_habits == "Omnivore":
+        num = 1
+    if eating_habits == "Vegetarian":
+        num = 2
+    histogram = Survey.SurveyQuerySurvey(s, choc_type, gender, min_age, max_age, num)
     for index in range(size):
         val = histogram.count(index)
         Survey.SurveySetIntArIdxVal(array, index, val)
@@ -64,6 +81,4 @@ def print_info(s , choc_type , gender , min_age , max_age, eating_habits):
 
 def clear_survey(s):
     Survey.SurveyDestroySurvey(s)
-
-
 
